@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class CarTest {
@@ -33,5 +34,22 @@ public class CarTest {
 
         // then
         assertEquals(1, car.getPosition());
+    }
+
+    @ParameterizedTest
+    @DisplayName("전진한 횟수만큼 하이픈(-) 문자열을 반환한다.")
+    @CsvSource({"1, -", "3, ---", "5, -----"})
+    void 하이픈_반환_테스트(int moveCount, String expected) {
+        // given
+        Car car = new Car("rye");
+
+        // when
+        for (int i = 0; i < moveCount; i++) {
+            car.move(4);
+        }
+        String result = car.positionToHyphen();
+
+        // then
+        assertEquals(expected, result);
     }
 }
