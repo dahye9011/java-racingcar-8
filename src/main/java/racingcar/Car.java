@@ -21,4 +21,11 @@ public class Car {
     public int getPosition() {
         return position;
     }
+
+    public String positionToHyphen() {
+        if (this.position <= 0) {
+            return "";
+        }
+        return "-".repeat(this.position);
+    }
 }
