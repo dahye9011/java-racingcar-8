@@ -1,6 +1,7 @@
 package racingcar;
 
 public class Car {
+    private static final int MINIMUM_TO_MOVE = 4;
     private final String name;
     private int position;
 
@@ -11,7 +12,7 @@ public class Car {
 
     // input == 무작위 값
     public void move(int input) {
-        if (input >= 4) {
+        if (input >= MINIMUM_TO_MOVE) {
             this.position++;
         }
     }
