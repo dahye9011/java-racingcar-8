@@ -22,6 +22,11 @@ public class Car {
         return position;
     }
 
+    // 리팩터링 필요
+    public String getName() {
+        return name;
+    }
+
     public String positionToHyphen() {
         if (this.position <= 0) {
             return "";
