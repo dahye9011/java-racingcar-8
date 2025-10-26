@@ -1,8 +1,10 @@
 package racingcar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -51,5 +53,22 @@ public class CarTest {
 
         // then
         assertEquals(expected, result);
+    }
+
+    @ParameterizedTest
+    @DisplayName("자동차 이름이 5자 초과인 경우, IllegalArgumentException이 발생한다.")
+    @ValueSource(strings = {"123456", "ryerye", "verylongname"})
+    void 이름_5자_초과_예외_테스트(String input) {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(input);
+        });
+    }
+
+    @Test
+    @DisplayName("자동차 이름이 null인 경우, IllegalArgumentException이 발생한다.")
+    void 이름_null_예외_테스트() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Car(null);
+        });
     }
 }
