@@ -35,11 +35,10 @@ public class CarsTest {
         // 최종 상태: rye(3), zero(0), hero(2)
 
         // when
-        List<Car> winners = cars.findWinners();
+        List<String> winners = cars.findWinnerNames();
 
         // then
         assertThat(winners)
-                .map(Car::getName)
                 .containsExactlyInAnyOrder("rye");
     }
 
@@ -57,11 +56,10 @@ public class CarsTest {
         car3.move(3);
 
         // when
-        List<Car> winners = cars.findWinners();
+        List<String> winners = cars.findWinnerNames();
 
         // then
         assertThat(winners)
-                .map(Car::getName)
                 .containsExactlyInAnyOrder("rye", "zero", "hero");
     }
 }
