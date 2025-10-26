@@ -28,7 +28,11 @@ public class Car {
         return name;
     }
 
-    public String positionToHyphen() {
+    public String toResultString() {
+        return name + " : " + positionToHyphen();
+    }
+
+    private String positionToHyphen() {
         if (this.position <= 0) {
             return "";
         }

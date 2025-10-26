@@ -9,10 +9,8 @@ public class OutputView {
 
     public void printRoundResult(List<Car> cars) {
         for (Car car : cars) {
-            System.out.println(car.getName() + " : " + car.positionToHyphen());
+            System.out.println(car.toResultString());
         }
-
-        // 회차 단위 공백 구분
         System.out.println();
     }
 
