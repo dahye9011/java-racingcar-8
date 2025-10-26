@@ -40,7 +40,7 @@ public class CarTest {
 
     @ParameterizedTest
     @DisplayName("전진한 횟수만큼 하이픈(-) 문자열을 반환한다.")
-    @CsvSource({"1, -", "3, ---", "5, -----"})
+    @CsvSource({"1, rye : -", "3, rye : ---", "5, rye : -----"})
     void 하이픈_반환_테스트(int moveCount, String expected) {
         // given
         Car car = new Car("rye");
@@ -49,7 +49,7 @@ public class CarTest {
         for (int i = 0; i < moveCount; i++) {
             car.move(4);
         }
-        String result = car.positionToHyphen();
+        String result = car.toResultString();
 
         // then
         assertEquals(expected, result);
