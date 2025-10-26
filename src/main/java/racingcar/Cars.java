@@ -1,5 +1,7 @@
 package racingcar;
 
+import camp.nextstep.edu.missionutils.Randoms;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +15,14 @@ public class Cars {
         this.cars = cars;
     }
 
-    public List<Car> findWinners() {
+    public void raceOneRound() {
+        for (Car car : cars) {
+            int randomNumber = Randoms.pickNumberInRange(0, 9);
+            car.move(randomNumber);
+        }
+    }
+
+    public List<String> findWinnerNames() {
         int max = cars.stream()
                 .mapToInt(Car::getPosition)
                 .max()
@@ -21,7 +30,12 @@ public class Cars {
 
         return cars.stream()
                 .filter(c -> c.getPosition() == max)
+                .map(Car::getName)
                 .collect(Collectors.toList());
+    }
+
+    public List<Car> getCars() {
+        return Collections.unmodifiableList(cars);
     }
 
     // getName()으로 직접 가져오지 않도록 리팩터링
