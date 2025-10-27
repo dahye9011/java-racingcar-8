@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class CarTest {
@@ -63,12 +64,13 @@ public class CarTest {
         });
     }
 
-    // 공백 추가
-    @Test
-    @DisplayName("자동차 이름이 null인 경우, IllegalArgumentException이 발생한다.")
-    void 이름_null_예외_테스트() {
+    @ParameterizedTest
+    @NullAndEmptySource
+    @ValueSource(strings = {" "})
+    @DisplayName("자동차 이름이 null이거나 공백 또는 비어있는 경우, IllegalArgumentException이 발생한다.")
+    void 이름__예외_테스트(String input) {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Car(null);
+            new Car(input);
         });
     }
 }
