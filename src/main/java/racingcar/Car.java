@@ -18,12 +18,6 @@ public class Car {
         }
     }
 
-    // 값을 가져와서 활용할 건데, 그렇더라도 굳이 그 값을 그대로 가져올 필요는 없음
-    public int getPosition() {
-        return position;
-    }
-
-    // 리팩터링 필요
     public String getName() {
         return name;
     }
@@ -32,11 +26,19 @@ public class Car {
         return name + " : " + positionToHyphen();
     }
 
+    public boolean isFurtherThan(Car other) {
+        return this.position > other.position;
+    }
+
+    public boolean isWinnerPositionSameAs(Car other) {
+        return this.position == other.position;
+    }
+
     private String positionToHyphen() {
-        if (this.position <= 0) {
+        if (position <= 0) {
             return "";
         }
-        return "-".repeat(this.position);
+        return "-".repeat(position);
     }
 
     private void validateName() {
