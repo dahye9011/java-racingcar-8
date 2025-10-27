@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class CarTest {
@@ -21,7 +20,7 @@ public class CarTest {
         car.move(input);
 
         // then
-        assertEquals(0, car.getPosition());
+        assertEquals("rye : ", car.toResultString());
     }
 
     @ParameterizedTest
@@ -35,13 +34,13 @@ public class CarTest {
         car.move(input);
 
         // then
-        assertEquals(1, car.getPosition());
+        assertEquals("rye : -", car.toResultString());
     }
 
     @ParameterizedTest
-    @DisplayName("전진한 횟수만큼 하이픈(-) 문자열을 반환한다.")
-    @CsvSource({"1, rye : -", "3, rye : ---", "5, rye : -----"})
-    void 하이픈_반환_테스트(int moveCount, String expected) {
+    @DisplayName("전진한 횟수만큼 하이픈(-)을 출력한다")
+    @ValueSource(ints = {1, 3, 5})
+    void 하이픈_반환_테스트(int moveCount) {
         // given
         Car car = new Car("rye");
 
@@ -49,10 +48,10 @@ public class CarTest {
         for (int i = 0; i < moveCount; i++) {
             car.move(4);
         }
-        String result = car.toResultString();
 
         // then
-        assertEquals(expected, result);
+        String expected = "rye : " + "-".repeat(moveCount);
+        assertEquals(expected, car.toResultString());
     }
 
     @ParameterizedTest
@@ -64,6 +63,7 @@ public class CarTest {
         });
     }
 
+    // 공백 추가
     @Test
     @DisplayName("자동차 이름이 null인 경우, IllegalArgumentException이 발생한다.")
     void 이름_null_예외_테스트() {
