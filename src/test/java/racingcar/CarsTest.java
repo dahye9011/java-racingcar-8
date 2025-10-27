@@ -1,5 +1,6 @@
 package racingcar;
 
+import static camp.nextstep.edu.missionutils.test.Assertions.assertRandomNumberInRangeTest;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import java.util.Arrays;
@@ -9,57 +10,54 @@ import org.junit.jupiter.api.Test;
 
 public class CarsTest {
     @Test
-    @DisplayName("여러 번의 시도 결과로 우승자를 찾는다")
+    @DisplayName("여러 번의 시도 결과로 우승자를 찾는다.")
     void 누적_시도_후_우승자_구하기_테스트() {
         // given
-        Car car1 = new Car("rye");
-        Car car2 = new Car("zero");
-        Car car3 = new Car("hero");
-        Cars cars = new Cars(Arrays.asList(car1, car2, car3));
-
-        // 1회차 시도
-        car1.move(5); // rye 전진 (position: 1)
-        car2.move(3); // zero 정지 (position: 0)
-        car3.move(3); // hero 정지 (position: 0)
-
-        // 2회차 시도
-        car1.move(5); // rye 전진 (position: 2)
-        car2.move(3); // zero 정지 (position: 0)
-        car3.move(4); // hero 전진 (position: 1)
-
-        // 3회차 시도
-        car1.move(5); // rye 전진 (position: 3)
-        car2.move(3); // zero 정지 (position: 0)
-        car3.move(4); // hero 전진 (position: 2)
-
+        // 1회차(5, 3, 3) / 2회차(5, 3, 4) / 3회차(5, 3, 4)
         // 최종 상태: rye(3), zero(0), hero(2)
+        final int[] randomNumbers = {5, 3, 3,  5, 3, 4,  5, 3, 4};
 
-        // when
-        List<String> winners = cars.findWinnerNames();
+        // when & then
+        assertRandomNumberInRangeTest(
+                () -> {
+                    Cars cars = new Cars(Arrays.asList("rye", "zero", "hero"));
 
-        // then
-        assertThat(winners)
-                .containsExactlyInAnyOrder("rye");
+                    cars.raceOneRound(); // 1회차
+                    cars.raceOneRound(); // 2회차
+                    cars.raceOneRound(); // 3회차
+
+                    List<String> winners = cars.findWinnerNames();
+
+                    assertThat(winners)
+                            .containsExactlyInAnyOrder("rye");
+                },
+                // raceOneRound()가 9번 호출할 Randoms 값을 순서대로 전달
+                randomNumbers[0], randomNumbers[1], randomNumbers[2],
+                randomNumbers[3], randomNumbers[4], randomNumbers[5],
+                randomNumbers[6], randomNumbers[7], randomNumbers[8]
+        );
     }
 
     @Test
-    @DisplayName("모든 자동차가 전진하지 못하면, 모두 공동 우승한다")
+    @DisplayName("모든 자동차가 전진하지 못하면, 모두 공동 우승한다.")
     void 모두_전진하지_못한_경우_우승자_구하기_테스트() {
         // given
-        Car car1 = new Car("rye");
-        Car car2 = new Car("zero");
-        Car car3 = new Car("hero");
-        Cars cars = new Cars(Arrays.asList(car1, car2, car3));
+        // 1, 2, 3 (모두 정지) 값 준비
+        final int[] randomNumbers = {1, 2, 3};
 
-        car1.move(1);
-        car2.move(2);
-        car3.move(3);
+        // when & then
+        assertRandomNumberInRangeTest(
+                () -> {
+                    Cars cars = new Cars(Arrays.asList("rye", "zero", "hero"));
 
-        // when
-        List<String> winners = cars.findWinnerNames();
+                    cars.raceOneRound();
 
-        // then
-        assertThat(winners)
-                .containsExactlyInAnyOrder("rye", "zero", "hero");
+                    List<String> winners = cars.findWinnerNames();
+
+                    assertThat(winners)
+                            .containsExactlyInAnyOrder("rye", "zero", "hero");
+                },
+                randomNumbers[0], randomNumbers[1], randomNumbers[2]
+        );
     }
 }
