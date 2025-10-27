@@ -1,7 +1,6 @@
 package racingcar;
 
 import camp.nextstep.edu.missionutils.Randoms;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,16 +28,17 @@ public class Cars {
                 .orElse(0);
 
         return cars.stream()
-                .filter(c -> c.getPosition() == max)
+                .filter(c -> c.isWinner(max))
                 .map(Car::getName)
                 .collect(Collectors.toList());
     }
 
-    public List<Car> getCars() {
-        return Collections.unmodifiableList(cars);
+    public List<String> getRoundResultStrings() {
+        return cars.stream()
+                .map(Car::toResultString)
+                .collect(Collectors.toList());
     }
 
-    // getName()으로 직접 가져오지 않도록 리팩터링
     private void validateDuplicate(List<Car> cars) {
         Set<String> carNames = new HashSet<>();
         for (Car car : cars) {

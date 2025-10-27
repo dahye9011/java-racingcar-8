@@ -7,9 +7,9 @@ public class OutputView {
         System.out.println("\n실행 결과");
     }
 
-    public void printRoundResult(List<Car> cars) {
-        for (Car car : cars) {
-            System.out.println(car.toResultString());
+    public void printRoundResult(List<String> results) {
+        for (String result : results) {
+            System.out.println(result);
         }
         System.out.println();
     }
