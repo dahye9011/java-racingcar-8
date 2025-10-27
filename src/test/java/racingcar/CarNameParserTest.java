@@ -11,7 +11,7 @@ public class CarNameParserTest {
     @DisplayName("자동차 이름을 쉼표(,)를 기준으로 구분한다.")
     void 자동차_이름_구분() {
         // given
-        CarNameParser parser = new CarNameParser();
+        Parser parser = new Parser();
         String input = "a,b,c";
 
         // when
