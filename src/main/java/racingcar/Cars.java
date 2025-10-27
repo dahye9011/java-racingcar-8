@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 public class Cars {
     private final List<Car> cars;
 
-    public Cars(final List<Car> cars) {
-        validateDuplicate(cars);
-        this.cars = cars;
+    public Cars(final List<String> carNames) {
+        validateDuplicate(carNames);
+        this.cars = createCarsFromNames(carNames);
     }
 
     public void raceOneRound() {
@@ -22,16 +22,16 @@ public class Cars {
     }
 
     public List<String> findWinnerNames() {
-        int max = cars.stream()
-                .mapToInt(Car::getPosition)
-                .max()
-                .orElse(0);
+        Car furthestCar = cars.stream()
+                .reduce((c1, c2) -> c1.isFurtherThan(c2) ? c1 : c2)
+                .orElseThrow();
 
         return cars.stream()
-                .filter(c -> c.isWinner(max))
+                .filter(c -> c.isWinnerPositionSameAs(furthestCar))
                 .map(Car::getName)
                 .collect(Collectors.toList());
     }
+
 
     public List<String> getRoundResultStrings() {
         return cars.stream()
@@ -39,13 +39,18 @@ public class Cars {
                 .collect(Collectors.toList());
     }
 
-    private void validateDuplicate(List<Car> cars) {
-        Set<String> carNames = new HashSet<>();
-        for (Car car : cars) {
-            String carName = car.getName();
-            if (!carNames.add(carName)) {
+    private void validateDuplicate(List<String> carNames) {
+        Set<String> uniqueCarNames = new HashSet<>();
+        for (String carName : carNames) {
+            if (!uniqueCarNames.add(carName)) {
                 throw new IllegalArgumentException("자동차 이름은 중복될 수 없습니다.");
             }
         }
+    }
+
+    private List<Car> createCarsFromNames(List<String> carNames) {
+        return carNames.stream()
+                .map(Car::new)
+                .collect(Collectors.toList());
     }
 }
