@@ -1,13 +1,17 @@
-package racingcar;
+package racingcar.controller;
 
 import java.util.List;
+import racingcar.Parser;
+import racingcar.domain.Cars;
+import racingcar.view.InputView;
+import racingcar.view.OutputView;
 
 public class RacingCarController {
     private final InputView inputView;
     private final OutputView outputView;
     private final Parser parser;
 
-    RacingCarController(InputView inputView, OutputView outputView, Parser parser) {
+    public RacingCarController(InputView inputView, OutputView outputView, Parser parser) {
         this.inputView = inputView;
         this.outputView = outputView;
         this.parser = parser;
